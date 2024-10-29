@@ -1,0 +1,19 @@
+
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12">
+            <h3>Find the Art</h3>
+            <form action="{% url 'find_art' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="artImage">Upload an image:</label>
+                    <input type="file" name="art_image" id="artImage" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Add Subcategory</title>
+    <link rel="stylesheet" href="{% static 'assets/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendors/css/vendor.bundle.base.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.png' %}" />
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875em;
+        }
+    </style>
+</head>
+<body>
+<div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+            <span class="brand-text">SKILLVOYAGE</span>
+        </div>
+        <ul class="nav">
+            <li class="nav-item menu-items">
+                <a class="nav-link" href="{% url 'admin_view' %}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-speedometer"></i>
+                    </span>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="nav-link" href="{% url 'view_categories' %}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-view-list"></i>
+                    </span>
+                    <span class="menu-title">Categories</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="nav-link" href="{% url 'teacher_requests' %}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-account-check"></i>
+                    </span>
+                    <span class="menu-title">Teacher Requests</span>
+                </a>
+            </li>
+            <!-- Add more items as needed -->
+        </ul>
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+        <nav class="navbar p-0 fixed-top d-flex flex-row">
+            <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo-mini" href="{% url 'admin_view' %}"><img src="{% static 'assets/images/logo-mini.svg' %}" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+                <ul class="navbar-nav w-100">
+                    <li class="nav-item w-100">
+                        <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </form>
+                    </li>
+                </ul>
+                <ul class="navbar-nav navbar-nav-right">
+                    <!-- Notifications and Messages Dropdowns -->
+                </ul>
+            </div>
+        </nav>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Add Subcategory</h4>
+                                <form class="forms-sample" method="post" action="{% url 'add_subcategory' %}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="category">Select Category</label>
+                                        <select id="category" name="category" class="form-control" required>
+                                            <option value="" disabled selected>Select a category</option>
+                                            {% for category in categories %}
+                                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span id="category-error" class="error-message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Subcategory Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Subcategory Name" required>
+                                        <span id="name-error" class="error-message"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">Subcategory Image</label>
+                                        <input type="file" class="form-control-file" id="image" name="image">
+                                        <span id="image-error" class="error-message"></span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                    <button type="reset" class="btn btn-light">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'assets/vendors/js/vendor.bundle.base.js' %}"></script>
+<script src="{% static 'assets/js/off-canvas.js' %}"></script>
+<script src="{% static 'assets/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'assets/js/misc.js' %}"></script>
+<script src="{% static 'assets/js/settings.js' %}"></script>
+<script src="{% static 'assets/js/todolist.js' %}"></script>
+<script>
+    function validateForm() {
+        let isValid = true;
+
+        const category = document.getElementById('category').value;
+        const name = document.getElementById('name').value.trim();
+        const image = document.getElementById('image').value.trim();
+
+        document.getElementById('category-error').textContent = '';
+        document.getElementById('name-error').textContent = '';
+        document.getElementById('image-error').textContent = '';
+
+        if (!category) {
+            document.getElementById('category-error').textContent = 'Please select a category.';
+            isValid = false;
+        }
+
+        if (!name) {
+            document.getElementById('name-error').textContent = 'Subcategory Name is required.';
+            isValid = false;
+        }
+
+        if (image && !/\.(jpg|jpeg|png)$/i.test(image)) {
+            document.getElementById('image-error').textContent = 'Only JPG, JPEG, and PNG formats are allowed.';
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
+</body>
+</html>
