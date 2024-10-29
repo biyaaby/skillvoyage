@@ -74,6 +74,6 @@ tzdata==2024.1
 urllib3==2.2.2
 webdriver-manager==4.0.2
 Werkzeug==3.0.4
-whitenoise-6.8.1
+whitenoise==6.8.1
 wrapt==1.16.0
 wsproto==1.2.0
