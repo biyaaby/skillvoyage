@@ -43,7 +43,6 @@ opt_einsum==3.4.0
 optree==0.13.0
 outcome==1.2.0
 packaging==24.1
-pandas==2.2.3
 pillow==10.4.0
 protobuf==4.25.5
 pycparser==2.22
@@ -64,7 +63,6 @@ stripe==10.12.0
 sympy==1.13.1
 termcolor==2.5.0
 threadpoolctl==3.5.0
-torch==2.5.0
 torchvision==0.20.0
 tqdm==4.66.5
 trio==0.22.0
